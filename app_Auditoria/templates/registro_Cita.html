@@ -1,0 +1,76 @@
+{% extends "principal_base.html" %}
+{% block titulo %}
+Auditoria | Registro Paciente
+{% endblock titulo %}
+{% load static %}
+{% block content %}
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header"><h3 class="text-center font-weight-light my-4">Registrar Paciente</h3></div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'app_Auditoria:registro_Cita' %}">
+                        {% csrf_token %}
+                            <div class="row mb-3">
+                                
+
+                                
+                                <div class="col-md-2">
+                                    <div class="form-floating  mb-md-0 ">
+                                    <select class="form-select" aria-label="Default select example" name="paciente" required>
+                                        <option selected value="">Seleccione</option>
+                                            {% for pa in pacientes %}
+                                            <option value="{{pa.pk}}">{{pa.nombres}}-{{pa.apellidos}}</option>
+                                            {% empty %}
+                                            <option value="">No hay registros...</option>
+                                            {% endfor %}
+                                        
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-floating  mb-md-0 ">
+                                    <select class="form-select" aria-label="Default select example" name="doctor" required>
+                                        <option selected value="">Seleccione</option>
+                                            {% for doc in doctores %}
+                                            <option value="{{doc.pk}}">{{doc.nombres}}-{{doc.apellidos}}</option>
+                                            {% empty %}
+                                            <option value="">No hay registros...</option>
+                                            {% endfor %}
+                                        
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                                        <label class="custom-control-label" for="customRadio1">Toggle this custom radio</label>
+                                      </div>
+                                      <div class="custom-control custom-radio">
+                                        <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+                                        <label class="custom-control-label" for="customRadio2">Or toggle this other custom radio</label>
+                                      </div>
+                                </div>
+                            </div>
+                        
+                        
+                        
+                            
+                        </div>
+                        <div class="mt-4 mb-0">
+                            <div class="d-grid"><button class="btn btn-primary" type="submit" >Registrar</button></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+{% endblock content %}
+
+{% block js %}
+
+{% endblock js %}

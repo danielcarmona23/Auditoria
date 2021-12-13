@@ -1,0 +1,7 @@
+.vscode 
+db.py
+__pycache__
+app_Auditoria/__pycache__/*
+Auditoria/__pycache__/*
+app_Auditoria/migrations/__pycache__/*
+*.DS_Store
