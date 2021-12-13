@@ -250,6 +250,7 @@ def registro_doctor(request):
 		return redirect('app_Auditoria:principal')
 
 
+
 #CITAS
 def registro_Cita(request):
 	
@@ -258,7 +259,7 @@ def registro_Cita(request):
 		citas = Cita.objects.all()
 		pacientes = Paciente.objects.all()
 		doctores = Doctor.objects.all()
-		ret_data,query_doctor,errores = {},{},{}
+		query_cita,errores,query_asigancion_cita = {},{},{}
 
 		
 
@@ -269,26 +270,15 @@ def registro_Cita(request):
 				errores['paciente'] = "Debe ingresar el paciente"
 				
 			else:
-				query_doctor["paciente"] = Paciente.objects.get(pk=int(request.POST.get("paciente")))
+				query_cita["paciente"] = Paciente.objects.get(pk=int(request.POST.get("paciente")))
 			
 			#Doctor
 			if request.POST.get('doctor') == '':
 				errores['doctor'] = "Debe ingresar el doctor"
 				
 			else:
-				query_doctor["doctor"] = Doctor.objects.get(pk=int(request.POST.get("doctor")))
+				query_cita["doctor"] = Doctor.objects.get(pk=int(request.POST.get("doctor")))
 				
-				d= Doctor.objects.get(pk = int(request.POST.get("doctor")))
-				print(d.usuario)
-			
-
-			if request.POST.get('estado') == '':
-				errores['estado'] = "Debe ingresar el estado"
-
-			else:
-				query_doctor["estado"] = request.POST.get('estado')
-
-
 			
 			
 			print (errores)
@@ -296,9 +286,17 @@ def registro_Cita(request):
 			if not errores:
 
 				try:
-					print('guardo')
-					# Ci = Doctor(**query_doctor)
-					# Ci.save()
+					
+					
+					query_cita["usuario"] = User.objects.get(pk=request.user.pk)
+					query_cita["estado"] = 0
+					print(query_cita)
+					
+					Ci = Cita(**query_cita)
+					Ci.save()
+					query_asigancion_cita["cita"] = Cita.objects.get(pk=Ci.pk)
+					ac= Asiganacion_Cita(**query_asigancion_cita)
+					ac.save()
 
 
 				except Exception as e:

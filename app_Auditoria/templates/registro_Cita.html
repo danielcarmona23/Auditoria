@@ -8,16 +8,15 @@ Auditoria | Registro Paciente
     <div class="row justify-content-center">
         <div class="col-lg-9">
             <div class="card shadow-lg border-0 rounded-lg mt-5">
-                <div class="card-header"><h3 class="text-center font-weight-light my-4">Registrar Paciente</h3></div>
+                <div class="card-header bg-info text-white"><h3 class="text-center font-weight-light my-4">Registrar Cita</h3></div>
                 <div class="card-body">
                     <form method="POST" action="{% url 'app_Auditoria:registro_Cita' %}">
                         {% csrf_token %}
                             <div class="row mb-3">
-                                
-
-                                
-                                <div class="col-md-2">
+                                <div class="col-md-4">
+                                    <label for="inputLastName">Paciente</label>
                                     <div class="form-floating  mb-md-0 ">
+                                        
                                     <select class="form-select" aria-label="Default select example" name="paciente" required>
                                         <option selected value="">Seleccione</option>
                                             {% for pa in pacientes %}
@@ -29,8 +28,10 @@ Auditoria | Registro Paciente
                                     </select>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-4">
+                                    <label for="inputLastName">Medico</label>
                                     <div class="form-floating  mb-md-0 ">
+                                        
                                     <select class="form-select" aria-label="Default select example" name="doctor" required>
                                         <option selected value="">Seleccione</option>
                                             {% for doc in doctores %}
@@ -42,16 +43,16 @@ Auditoria | Registro Paciente
                                     </select>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <!-- <div class="col-md-2">
                                     <div class="custom-control custom-radio">
                                         <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
                                         <label class="custom-control-label" for="customRadio1">Toggle this custom radio</label>
-                                      </div>
-                                      <div class="custom-control custom-radio">
+                                    </div>
+                                    <div class="custom-control custom-radio">
                                         <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
                                         <label class="custom-control-label" for="customRadio2">Or toggle this other custom radio</label>
-                                      </div>
-                                </div>
+                                    </div>
+                                </div> -->
                             </div>
                         
                         
@@ -66,7 +67,63 @@ Auditoria | Registro Paciente
             </div>
         </div>
     </div>
-    
+    <BR><BR></BR></BR>
+    <div class="container-fluid px-4">
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <i class="fas fa-table me-1"></i>
+            Citas Registradas
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple" class="table table-hover ">
+                <thead>
+                    <tr>
+                        <th># Expediente</th>
+                        <th>Paciente</th>
+                        <th>Doctor</th>
+                        <th>fecha Registro</th>
+                        <th>Usuario</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th># Expediente</th>
+                        <th>Paciente</th>
+                        <th>Doctor</th>
+                        <th>fecha Registro</th>
+                        <th>Usuario</th>
+                        <th>Estado</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                   
+                   {% for c in citas %}
+                       
+                   
+                       
+                    <tr>
+                        <td>{{c.pk}}</td>
+                        <td>{{c.paciente.nombres}}-{{c.paciente.apellidos}}</td>
+                        <td>{{c.doctor.nombres}}-{{c.doctor.apellidos}}</td>
+                        <td>{{c.fecha_registro}}</td>
+                        <td>{{c.usuario.username}}</td>
+                        
+                        {% if c.estado == true %}
+                        <td style="color: green;">Atendido</td>
+                        {% else %}
+                        <td style="color: rgb(148, 50, 50);">Sin Atender</td>
+                        {% endif %}
+                            
+                        
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
     
 
 {% endblock content %}
